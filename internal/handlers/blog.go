@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"os"
 	"path/filepath"
@@ -139,6 +140,7 @@ func (h *BlogHandler) ListPosts(w http.ResponseWriter, r *http.Request) {
 
 	err := h.templates.ExecuteTemplate(w, "blog-list.html", data)
 	if err != nil {
+		log.Println("Error executing template:", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
@@ -171,6 +173,7 @@ func (h *BlogHandler) ViewPost(w http.ResponseWriter, r *http.Request) {
 
 	err := h.templates.ExecuteTemplate(w, "blog-post.html", data)
 	if err != nil {
+		log.Println("Error executing template:", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
