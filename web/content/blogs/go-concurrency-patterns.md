@@ -32,16 +32,16 @@ func main() {
     go func() {
         fmt.Println("Hello from goroutine!")
     }()
-    
+
     // Channel communication
     ch := make(chan string)
     go func() {
         ch <- "Hello from channel!"
     }()
-    
+
     message := <-ch
     fmt.Println(message)
-    
+
     time.Sleep(100 * time.Millisecond) // Let goroutine finish
 }
 ```
@@ -87,14 +87,14 @@ func (wp *WorkerPool) Start() {
 
 func (wp *WorkerPool) worker(id int) {
     defer wp.wg.Done()
-    
+
     for job := range wp.jobQueue {
         fmt.Printf("Worker %d processing job %d\n", id, job.ID)
-        
+
         // Simulate work
         time.Sleep(100 * time.Millisecond)
         result := fmt.Sprintf("Processed: %s by worker %d", job.Data, id)
-        
+
         job.Result <- result
         close(job.Result)
     }
@@ -112,7 +112,7 @@ func (wp *WorkerPool) Stop() {
 func main() {
     pool := NewWorkerPool(3)
     pool.Start()
-    
+
     // Submit jobs
     for i := 0; i < 10; i++ {
         job := Job{
@@ -120,16 +120,16 @@ func main() {
             Data:   fmt.Sprintf("data-%d", i),
             Result: make(chan string, 1),
         }
-        
+
         pool.Submit(job)
-        
+
         // Get result
         go func(j Job) {
             result := <-j.Result
             fmt.Printf("Job %d result: %s\n", j.ID, result)
         }(job)
     }
-    
+
     time.Sleep(2 * time.Second)
     pool.Stop()
 }
@@ -152,11 +152,11 @@ import (
 // Fan-out: distribute work to multiple workers
 func fanOut(input <-chan int, workerCount int) []<-chan int {
     workers := make([]<-chan int, workerCount)
-    
+
     for i := 0; i < workerCount; i++ {
         worker := make(chan int)
         workers[i] = worker
-        
+
         go func(w chan<- int) {
             defer close(w)
             for data := range input {
@@ -166,7 +166,7 @@ func fanOut(input <-chan int, workerCount int) []<-chan int {
             }
         }(worker)
     }
-    
+
     return workers
 }
 
@@ -174,7 +174,7 @@ func fanOut(input <-chan int, workerCount int) []<-chan int {
 func fanIn(workers []<-chan int) <-chan int {
     output := make(chan int)
     var wg sync.WaitGroup
-    
+
     for _, worker := range workers {
         wg.Add(1)
         go func(w <-chan int) {
@@ -184,23 +184,23 @@ func fanIn(workers []<-chan int) <-chan int {
             }
         }(worker)
     }
-    
+
     go func() {
         wg.Wait()
         close(output)
     }()
-    
+
     return output
 }
 
 func main() {
     // Create input channel
     input := make(chan int)
-    
+
     // Start the pipeline
     workers := fanOut(input, 3)
     results := fanIn(workers)
-    
+
     // Send data
     go func() {
         defer close(input)
@@ -208,7 +208,7 @@ func main() {
             input <- i
         }
     }()
-    
+
     // Collect results
     for result := range results {
         fmt.Printf("Result: %d\n", result)
@@ -280,10 +280,10 @@ func prefixer(input <-chan string) <-chan string {
 
 func main() {
     data := []string{"go", "rust", "python", "java", "c++", "js"}
-    
+
     // Build pipeline
     pipeline := prefixer(filter(transformer(generator(data))))
-    
+
     // Process results
     for result := range pipeline {
         fmt.Println(result)
@@ -306,10 +306,10 @@ import (
 
 func longRunningTask(ctx context.Context, id int) <-chan string {
     result := make(chan string, 1)
-    
+
     go func() {
         defer close(result)
-        
+
         // Simulate long-running work
         select {
         case <-time.After(2 * time.Second):
@@ -318,7 +318,7 @@ func longRunningTask(ctx context.Context, id int) <-chan string {
             result <- fmt.Sprintf("Task %d cancelled: %v", id, ctx.Err())
         }
     }()
-    
+
     return result
 }
 
@@ -327,34 +327,34 @@ func main() {
     fmt.Println("=== Timeout Example ===")
     ctx, cancel := context.WithTimeout(context.Background(), 1*time.Second)
     defer cancel()
-    
+
     result := longRunningTask(ctx, 1)
     fmt.Println(<-result)
-    
+
     // Example 2: Manual cancellation
     fmt.Println("\n=== Manual Cancellation Example ===")
     ctx2, cancel2 := context.WithCancel(context.Background())
-    
+
     result2 := longRunningTask(ctx2, 2)
-    
+
     // Cancel after 500ms
     go func() {
         time.Sleep(500 * time.Millisecond)
         cancel2()
     }()
-    
+
     fmt.Println(<-result2)
-    
+
     // Example 3: Multiple tasks with shared context
     fmt.Println("\n=== Multiple Tasks Example ===")
     ctx3, cancel3 := context.WithTimeout(context.Background(), 1500*time.Millisecond)
     defer cancel3()
-    
+
     tasks := make([]<-chan string, 3)
     for i := 0; i < 3; i++ {
         tasks[i] = longRunningTask(ctx3, i+3)
     }
-    
+
     for i, task := range tasks {
         fmt.Printf("Task %d: %s\n", i+3, <-task)
     }
@@ -385,12 +385,12 @@ func NewRateLimiter(rps int) *RateLimiter {
         tokens: make(chan struct{}, rps),
         ticker: time.NewTicker(time.Second / time.Duration(rps)),
     }
-    
+
     // Fill initial tokens
     for i := 0; i < rps; i++ {
         rl.tokens <- struct{}{}
     }
-    
+
     // Refill tokens
     go func() {
         for range rl.ticker.C {
@@ -401,7 +401,7 @@ func NewRateLimiter(rps int) *RateLimiter {
             }
         }
     }()
-    
+
     return rl
 }
 
@@ -422,9 +422,9 @@ func main() {
     // Allow 2 requests per second
     limiter := NewRateLimiter(2)
     defer limiter.Stop()
-    
+
     var wg sync.WaitGroup
-    
+
     // Make 10 API calls
     for i := 1; i <= 10; i++ {
         wg.Add(1)
@@ -434,7 +434,7 @@ func main() {
             simulateAPICall(id)
         }(i)
     }
-    
+
     wg.Wait()
 }
 ```
@@ -485,19 +485,19 @@ func NewWebScraper(workers int, rps int) *WebScraper {
 func (ws *WebScraper) scrapeURL(ctx context.Context, url string) ScrapeResult {
     // Rate limiting
     ws.rateLimiter.Wait()
-    
+
     // Create request with context
     req, err := http.NewRequestWithContext(ctx, "GET", url, nil)
     if err != nil {
         return ScrapeResult{URL: url, Error: err}
     }
-    
+
     resp, err := ws.client.Do(req)
     if err != nil {
         return ScrapeResult{URL: url, Error: err}
     }
     defer resp.Body.Close()
-    
+
     return ScrapeResult{
         URL:        url,
         StatusCode: resp.StatusCode,
@@ -508,7 +508,7 @@ func (ws *WebScraper) scrapeURL(ctx context.Context, url string) ScrapeResult {
 func (ws *WebScraper) ScrapeURLs(ctx context.Context, urls []string) <-chan ScrapeResult {
     results := make(chan ScrapeResult, len(urls))
     var wg sync.WaitGroup
-    
+
     for _, url := range urls {
         wg.Add(1)
         go func(u string) {
@@ -517,12 +517,12 @@ func (ws *WebScraper) ScrapeURLs(ctx context.Context, urls []string) <-chan Scra
             results <- result
         }(url)
     }
-    
+
     go func() {
         wg.Wait()
         close(results)
     }()
-    
+
     return results
 }
 
@@ -534,27 +534,27 @@ func main() {
         "https://httpbin.org/status/404",
         "https://httpbin.org/json",
     }
-    
+
     scraper := NewWebScraper(3, 2) // 3 workers, 2 requests per second
     defer scraper.rateLimiter.Stop()
-    
+
     ctx, cancel := context.WithTimeout(context.Background(), 15*time.Second)
     defer cancel()
-    
+
     fmt.Println("Starting web scraper...")
     start := time.Now()
-    
+
     results := scraper.ScrapeURLs(ctx, urls)
-    
+
     for result := range results {
         if result.Error != nil {
             fmt.Printf("Error scraping %s: %v\n", result.URL, result.Error)
         } else {
-            fmt.Printf("Success: %s (Status: %d) - %s\n", 
+            fmt.Printf("Success: %s (Status: %d) - %s\n",
                 result.URL, result.StatusCode, result.Content)
         }
     }
-    
+
     fmt.Printf("Completed in %v\n", time.Since(start))
 }
 ```

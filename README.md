@@ -27,26 +27,31 @@ A simple portfolio website built with Go, Tailwind CSS, and modern web technolog
 ### Installation
 
 1. Clone the repository and navigate to the portfolio directory:
+
 ```bash
 cd portfolio
 ```
 
 2. Install JavaScript dependencies:
+
 ```bash
 bun install
 ```
 
 3. Install Go dependencies:
+
 ```bash
 go mod tidy
 ```
 
 4. Build CSS (for production):
+
 ```bash
 bun run build:css:prod
 ```
 
 Or for development with watch mode:
+
 ```bash
 bun run build:css
 ```
@@ -62,6 +67,7 @@ go run cmd/server/main.go
 The server will start on port 8080 by default. Visit http://localhost:8080 to view the site.
 
 To specify a different port:
+
 ```bash
 PORT=3000 go run cmd/server/main.go
 ```
@@ -108,11 +114,13 @@ has_code_blocks: true
 ## Development
 
 1. Start CSS watch mode:
+
 ```bash
 bun run build:css
 ```
 
 2. In another terminal, start the Go server:
+
 ```bash
 go run cmd/server/main.go
 ```
@@ -124,16 +132,19 @@ go run cmd/server/main.go
 ## Deployment
 
 1. Build production CSS:
+
 ```bash
 bun run build:css:prod
 ```
 
 2. Build Go binary:
+
 ```bash
 go build -o portfolio cmd/server/main.go
 ```
 
 3. Run the binary:
+
 ```bash
 ./portfolio
 ```

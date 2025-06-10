@@ -1,56 +1,53 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{{if .Title}}{{.Title}} - {{end}}Portfolio</title>
-    <link href="/static/css/style.css" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-</head>
-<body class="bg-gray-50 text-gray-900">
+    <link href="/static/css/style.css" rel="stylesheet" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-50 text-gray-900">
     <nav class="bg-white shadow-sm border-b border-gray-200">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-16">
-                <div class="flex items-center">
-                    <a href="/" class="font-bold text-xl text-gray-900">Portfolio</a>
-                </div>
-                <div class="flex space-x-8">
-                    <a href="/" class="nav-link">Home</a>
-                    <a href="/blog" class="nav-link">Blog</a>
-                </div>
-            </div>
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-16">
+          <div class="flex items-center">
+            <a href="/" class="font-bold text-xl text-gray-900">Portfolio</a>
+          </div>
+          <div class="flex space-x-8">
+            <a href="/" class="nav-link">Home</a>
+            <a href="/blog" class="nav-link">Blog</a>
+          </div>
         </div>
+      </div>
     </nav>
 
     <main>
-        <div class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8">
-            <div class="text-center">
-                <h1 class="hero-title">
-                    {{.Title}}
-                </h1>
-                <p class="hero-subtitle">
-                    {{.Subtitle}}
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center">
-                    <a href="/blog" class="btn-primary">
-                        View DevLogs
-                    </a>
-                    <a href="/blog" class="btn-secondary">
-                        Browse Projects
-                    </a>
-                </div>
-            </div>
+      <div
+        class="min-h-screen flex items-center justify-center px-4 sm:px-6 lg:px-8"
+      >
+        <div class="text-center">
+          <h1 class="hero-title">{{.Title}}</h1>
+          <p class="hero-subtitle">{{.Subtitle}}</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a href="/blog" class="btn-primary"> View DevLogs </a>
+            <a href="/blog" class="btn-secondary"> Browse Projects </a>
+          </div>
         </div>
+      </div>
     </main>
 
     <footer class="bg-white border-t border-gray-200 mt-16">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="text-center text-gray-600">
-                <p>&copy; {{.Year}} Portfolio. Built with Go and Tailwind CSS.</p>
-            </div>
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div class="text-center text-gray-600">
+          <p>&copy; {{.Year}} Portfolio. Built with Go and Tailwind CSS.</p>
         </div>
+      </div>
     </footer>
-</body>
+  </body>
 </html>

@@ -26,20 +26,20 @@ graph TB
             ALB[Application Load Balancer]
             NAT[NAT Gateway]
         end
-        
+
         subgraph "Private Subnets - Control Plane"
             CP1[Control Plane Node 1]
             CP2[Control Plane Node 2]
             CP3[Control Plane Node 3]
         end
-        
+
         subgraph "Private Subnets - Worker Nodes"
             WN1[Worker Node 1]
             WN2[Worker Node 2]
             WN3[Worker Node 3]
             WN4[Worker Node 4]
         end
-        
+
         subgraph "AWS Services"
             EBS[EBS Volumes]
             ECR[ECR Registry]
@@ -47,23 +47,23 @@ graph TB
             R53[Route 53]
         end
     end
-    
+
     Internet[Internet] --> ALB
     ALB --> WN1
     ALB --> WN2
     ALB --> WN3
     ALB --> WN4
-    
+
     CP1 --> WN1
     CP1 --> WN2
     CP2 --> WN3
     CP3 --> WN4
-    
+
     WN1 --> EBS
     WN2 --> EBS
     WN3 --> ECR
     WN4 --> ECR
-    
+
     R53 --> ALB
 ```
 
@@ -80,19 +80,19 @@ graph LR
         CM[Controller Manager]
         CCM[Cloud Controller Manager]
     end
-    
+
     subgraph "Worker Nodes"
         KUBELET[Kubelet]
         PROXY[Kube-proxy]
         RUNTIME[Container Runtime]
     end
-    
+
     API --> KUBELET
     SCHED --> API
     CM --> API
     CCM --> API
     API --> ETCD
-    
+
     KUBELET --> RUNTIME
     PROXY --> RUNTIME
 ```
@@ -117,36 +117,36 @@ graph TB
             PROXY[kube-proxy]
             CNI[CNI Plugin]
         end
-        
+
         subgraph "Application Pods"
             POD1[Pod 1]
             POD2[Pod 2]
             POD3[Pod 3]
         end
-        
+
         subgraph "Container Runtime"
             CONTAINERD[containerd]
             RUNC[runc]
         end
-        
+
         subgraph "AWS Integration"
             AWSNODE[AWS VPC CNI]
             EBSCSI[EBS CSI Driver]
         end
     end
-    
+
     KUBELET --> POD1
     KUBELET --> POD2
     KUBELET --> POD3
     KUBELET --> CONTAINERD
-    
+
     PROXY --> CNI
     CNI --> AWSNODE
-    
+
     POD1 --> CONTAINERD
     POD2 --> CONTAINERD
     POD3 --> CONTAINERD
-    
+
     CONTAINERD --> RUNC
     EBSCSI --> POD1
 ```
@@ -171,7 +171,7 @@ graph TB
                 end
             end
         end
-        
+
         subgraph "AZ-1b"
             subgraph "Public Subnet: 10.0.2.0/24"
                 NAT2[NAT Gateway]
@@ -186,7 +186,7 @@ graph TB
             end
         end
     end
-    
+
     POD1 --> POD3
     POD2 --> POD4
     WN1 --> NAT1
@@ -204,19 +204,19 @@ graph LR
         IO1[io1 High IOPS]
         EFS[EFS Shared]
     end
-    
+
     subgraph "Persistent Volumes"
         PV1[PV - gp3]
         PV2[PV - io1]
         PV3[PV - EFS]
     end
-    
+
     subgraph "Applications"
         DB[Database Pod]
         WEB[Web App Pod]
         SHARED[Shared Storage Pod]
     end
-    
+
     GP3 --> PV1 --> DB
     IO1 --> PV2 --> DB
     EFS --> PV3 --> WEB
@@ -235,24 +235,24 @@ graph TB
         POD[Pod Execution Role]
         SERVICE[Service Account Role]
     end
-    
+
     subgraph "Kubernetes RBAC"
         SA[Service Account]
         ROLE[Role/ClusterRole]
         BINDING[RoleBinding]
     end
-    
+
     subgraph "AWS Services"
         S3[S3 Bucket]
         RDS[RDS Database]
         SECRETS[Secrets Manager]
     end
-    
+
     SERVICE --> POD
     SA --> SERVICE
     ROLE --> BINDING
     SA --> BINDING
-    
+
     POD --> S3
     POD --> RDS
     POD --> SECRETS

@@ -3,10 +3,12 @@
 ## Tech Stack
 
 ### Backend
+
 - **Go (Golang)** - Web server using `net/http` and `html/template`
 - **Gorilla Mux** - HTTP router for clean URL routing
 
 ### Frontend
+
 - **Tailwind CSS** - Utility-first CSS framework
 - **Bun** - JavaScript runtime for build tools
 - **Tailwind CLI** - For CSS compilation
@@ -14,6 +16,7 @@
 - **Mermaid.js** - Diagram rendering for architecture diagrams
 
 ### Build Tools
+
 - **Bun** - Package manager and build tool
 - **Tailwind CLI** - CSS processing
 - **Go modules** - Dependency management
@@ -61,13 +64,16 @@ portfolio/
 ## Features
 
 ### Landing Page
+
 - Hero section with centered title and subtitle
 - Clean, minimal design using Tailwind CSS
 - Responsive layout
 - Navigation to blog posts
 
 ### Blog System
+
 1. **DevOps Blog Post**
+
    - Topic: Kubernetes Architecture on AWS
    - Rendered Mermaid diagrams showing cloud architecture
    - Technical content about container orchestration
@@ -78,6 +84,7 @@ portfolio/
    - Practical examples and explanations
 
 ### Technical Implementation
+
 - Server-side rendering with Go templates
 - Static asset serving for CSS/JS
 - Markdown parsing for blog content
