@@ -11,8 +11,6 @@ has_mermaid: true
 has_code_blocks: false
 ---
 
-# Kubernetes Architecture on AWS: A Complete Guide
-
 Kubernetes has become the de facto standard for container orchestration, and when combined with AWS's robust cloud infrastructure, it provides a powerful platform for deploying and managing applications at scale. In this post, we'll explore the architecture of a production-ready Kubernetes cluster on AWS.
 
 ## High-Level Architecture Overview

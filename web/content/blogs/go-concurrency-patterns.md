@@ -11,8 +11,6 @@ has_mermaid: false
 has_code_blocks: true
 ---
 
-# Go Concurrency Patterns: Channels, Goroutines, and Real-World Applications
-
 Go's concurrency model, built around goroutines and channels, is one of its most powerful features. Unlike traditional threading models, Go's approach makes concurrent programming more accessible and less error-prone. In this post, we'll explore essential concurrency patterns that every Go developer should master.
 
 ## The Foundation: Goroutines and Channels
